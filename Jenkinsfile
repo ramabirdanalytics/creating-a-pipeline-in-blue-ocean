@@ -25,19 +25,41 @@ pipeline {
     }
 
     stage('Test') {
-      environment {
-        CI = 'true'
-      }
-      steps {
-        sh './jenkins/scripts/test.sh'
+      parallel {
+        stage('Test') {
+          environment {
+            CI = 'true'
+          }
+          steps {
+            sh './jenkins/scripts/test.sh'
+          }
+        }
+
+        stage('contint') {
+          steps {
+            sh 'npm run-script cont-int'
+          }
+        }
+
       }
     }
 
     stage('Deliver') {
-      steps {
-        sh './jenkins/scripts/deliver.sh'
-        input 'Finished using the web site? (Click "Proceed" to continue)'
-        sh './jenkins/scripts/kill.sh'
+      parallel {
+        stage('Deliver') {
+          steps {
+            sh './jenkins/scripts/deliver.sh'
+            input 'Finished using the web site? (Click "Proceed" to continue)'
+            sh './jenkins/scripts/kill.sh'
+          }
+        }
+
+        stage('VulnerabilityTest') {
+          steps {
+            sh 'npm test'
+          }
+        }
+
       }
     }
 

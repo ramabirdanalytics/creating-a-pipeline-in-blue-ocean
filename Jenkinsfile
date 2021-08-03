@@ -8,19 +8,8 @@ pipeline {
   }
   stages {
     stage('Build') {
-      parallel {
-        stage('Build') {
-          steps {
-            sh 'npm install'
-          }
-        }
-
-        stage('Eslint') {
-          steps {
-            sh 'npm install --save-dev eslint-plugin-security'
-          }
-        }
-
+      steps {
+        sh 'npm install'
       }
     }
 

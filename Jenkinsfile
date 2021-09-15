@@ -13,5 +13,17 @@ pipeline {
       }
     }
 
+    stage('Invoke DC') {
+      steps {
+        dependencyCheck()
+      }
+    }
+
+    stage('Publish Results') {
+      steps {
+        dependencyCheckPublisher()
+      }
+    }
+
   }
 }

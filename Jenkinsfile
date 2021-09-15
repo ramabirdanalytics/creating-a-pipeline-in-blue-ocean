@@ -15,12 +15,7 @@ pipeline {
 
     stage('Invoke DC') {
       steps {
-        dependencyCheck(additionalArguments: '--scan="/var/lib/jenkins_home/workspace/Bird_Bird/*.jar" --format HTML')
-      }
-    }
-
-    stage('Publish Results') {
-      steps {
+        dependencyCheck(additionalArguments: '--scan= /var/lib/jenkins_home/workspace/Bird_Bird/*.jar --format HTML')
         dependencyCheckPublisher()
       }
     }
